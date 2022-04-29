@@ -6,61 +6,93 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 03:51:20 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/04/29 16:43:25 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 21:22:56 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minitalk.h"
 
-void sr_pkey(int *pkey,char *c,siginfo_t *info,int *spid,int sig)
+int	get_unicount_count(char c)
 {
-	if (!*c)
-		*c = recieve_byte(sig,info);
-	if(*c)
-	{
-		*pkey = generate_key() % 10 + 1;
-		send_crypted_key(7,*pkey,info->si_pid);
-		*spid = info->si_pid;
-		*pkey = receive_crypted_key(*pkey,*c);
-	}
+	int	i;
+
+	i = 7;
+	while (c >> i & 1)
+		i--;
+	return (7 - i);
 }
 
-void sigaction_hand(int sig,siginfo_t *info,void *data)
+void	print_unicode(char *s, int len)
 {
-	static char	c;
-	static int	pkey;
-	static int	spid;
-	
-	if (info->si_pid != spid)
-		pkey = 0;
-	if (!pkey)
+	int	i;
+
+	i = -1;
+	while (++i < len)
+		write(1, &s[i], 1);
+}
+
+void	get_uc(char *c, int *co, int *i, unicode *u)
+{
+	*c = recieve_byte(u->sig, u->info);
+	if (*c)
 	{
-		sr_pkey(&pkey,&c,info,&spid,sig);
-	}
-	else
-	{
-		c = recieve_byte(sig,info);
-		if (c)
+		*c += (u->pkey);
+		if (!(*c >> 7 & 1))
+			write(1, &c[0], 1);
+		else
 		{
-			c += pkey;
-			write(1,&c,1);
-			c = 0;
+			if (!*i)
+				*co = get_unicount_count(*c);
+			if (*i == *co - 1)
+			{
+				(u->s)[*i] = *c;
+				print_unicode(u->s, *co);
+				*i = 0;
+			}
+			else
+			{
+				(u->s)[*i] = *c;
+				*i += 1;
+			}
 		}
+		*c = 0;
 	}
 }
 
-int main(int ac, char **av)
+void	sigaction_hand(int sig, siginfo_t *info, void *data)
 {
-	struct sigaction clsa;
+	static char		c;
+	static int		count;
+	static int		i;
+	static char		unic[4];
+	static unicode	u;
 
-	sigaddset(&clsa.sa_mask,SIGABRT);
+	u.sig = sig;
+	u.info = info;
+	u.s = unic;
+	if (info->si_pid != u.spid)
+	{
+		(u.pkey) = 0;
+		ft_bzero(u.s, 4 * 4);
+	}
+	if (!u.pkey)
+		sr_pkey((&(u.pkey)), &c, &u, &(u.spid));
+	else
+		get_uc(&c, &count, &i, &u);
+}
+
+int	main(int ac, char **av)
+{
+	struct sigaction	clsa;
+
+	sigaddset(&clsa. sa_mask, SIGABRT);
 	clsa.sa_flags = SA_SIGINFO;
 	clsa.sa_sigaction = &sigaction_hand;
-	sigaction(SIGUSR1, &clsa , NULL);
-	sigaction(SIGUSR2, &clsa , NULL);
+	sigaction(SIGUSR1, &clsa, NULL);
+	sigaction(SIGUSR2, &clsa, NULL);
 	write(1, "\nPID=", 5);
-	ft_putnbr_fd(getpid(),1);
-	write(1, "\n",1);
+	ft_putnbr_fd(getpid(), 1);
+	write(1, "\n", 1);
 	while (1)
 		pause();
 	return (0);

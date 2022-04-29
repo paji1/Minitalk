@@ -19,7 +19,7 @@ if [ -z ${PID} ]
 		./bin/server > /dev/ttys001 &
 		sleep 0.5
 		PID=$(ps aux | grep /server$ | awk 'NR==1 {print $2}')
-		./bin/client $PID $1
+		./bin/client $PID "$*"
 else 
-	./bin/client $PID $1 
+	./bin/client $PID "$*"
 fi
