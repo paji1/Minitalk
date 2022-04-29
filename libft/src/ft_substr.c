@@ -6,7 +6,7 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 15:08:48 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/02/18 08:55:37 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 23:25:29 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (lent <= start)
 	{
 		p = ft_strdup("");
-		if(!p)
+		if (!p)
 			return (NULL);
 		return (p);
 	}

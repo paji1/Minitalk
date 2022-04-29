@@ -6,7 +6,7 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 03:51:20 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/04/29 21:22:56 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 23:26:23 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_unicode(char *s, int len)
 		write(1, &s[i], 1);
 }
 
-void	get_uc(char *c, int *co, int *i, unicode *u)
+void	get_uc(char *c, int *co, int *i, t_unicode *u)
 {
 	*c = recieve_byte(u->sig, u->info);
 	if (*c)
@@ -61,12 +61,13 @@ void	get_uc(char *c, int *co, int *i, unicode *u)
 
 void	sigaction_hand(int sig, siginfo_t *info, void *data)
 {
-	static char		c;
-	static int		count;
-	static int		i;
-	static char		unic[4];
-	static unicode	u;
+	static char			c;
+	static int			count;
+	static int			i;
+	static char			unic[4];
+	static t_unicode	u;
 
+	(void)data;
 	u.sig = sig;
 	u.info = info;
 	u.s = unic;
@@ -85,6 +86,8 @@ int	main(int ac, char **av)
 {
 	struct sigaction	clsa;
 
+	(void)av;
+	(void)ac;
 	sigaddset(&clsa. sa_mask, SIGABRT);
 	clsa.sa_flags = SA_SIGINFO;
 	clsa.sa_sigaction = &sigaction_hand;

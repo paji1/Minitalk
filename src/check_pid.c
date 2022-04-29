@@ -6,15 +6,29 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 15:29:19 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/04/27 16:48:02 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 23:19:07 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Minitalk.h"
 
-void	check_pid(char *s)
+int	check_pid_ac(char **s, int ac)
 {
-	while (*s)
-		if (!ft_isdigit(*s++))
+	int	i;
+
+	i = -1;
+	if (ac != 3)
+	{
+		write(2, "invalid arguments", 18);
+		exit(EXIT_FAILURE);
+	}
+	while (s[1][++i])
+	{
+		if (!ft_isdigit(s[1][i]))
+		{
+			write(2, "invalid pid", 12);
 			exit(EXIT_FAILURE);
+		}
+	}
+	return (ft_atoi(s[1]));
 }

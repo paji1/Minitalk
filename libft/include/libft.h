@@ -6,7 +6,7 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:40:18 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/02/02 13:46:55 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 23:25:59 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
 
 void	ft_bzero(void *s, size_t n);
 int		ft_isalnum(int c);
@@ -53,6 +52,5 @@ size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		countwords(const char *s, char c);
-
 
 #endif
