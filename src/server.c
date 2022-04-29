@@ -6,12 +6,24 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 03:51:20 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/04/27 17:59:02 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:43:25 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minitalk.h"
 
+void sr_pkey(int *pkey,char *c,siginfo_t *info,int *spid,int sig)
+{
+	if (!*c)
+		*c = recieve_byte(sig,info);
+	if(*c)
+	{
+		*pkey = generate_key() % 10 + 1;
+		send_crypted_key(7,*pkey,info->si_pid);
+		*spid = info->si_pid;
+		*pkey = receive_crypted_key(*pkey,*c);
+	}
+}
 
 void sigaction_hand(int sig,siginfo_t *info,void *data)
 {
@@ -23,15 +35,7 @@ void sigaction_hand(int sig,siginfo_t *info,void *data)
 		pkey = 0;
 	if (!pkey)
 	{
-		if (!c)
-			c = recieve_byte(sig,info);
-		if(c)
-		{
-			pkey = generate_key() % 10 + 1;
-			send_crypted_key(7,pkey,info->si_pid);
-			spid = info->si_pid;
-			pkey = receive_crypted_key(pkey,c);
-		}
+		sr_pkey(&pkey,&c,info,&spid,sig);
 	}
 	else
 	{

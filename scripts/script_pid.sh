@@ -16,7 +16,7 @@ PID=$(ps aux | grep /server$ | awk 'NR==1 {print $2}')
 
 if [ -z ${PID} ]
 	then
-		./bin/server > /dev/ttys000 &
+		./bin/server > /dev/ttys001 &
 		sleep 0.5
 		PID=$(ps aux | grep /server$ | awk 'NR==1 {print $2}')
 		./bin/client $PID $1
