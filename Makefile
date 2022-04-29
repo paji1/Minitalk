@@ -6,7 +6,7 @@
 #    By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 02:57:56 by tel-mouh          #+#    #+#              #
-#    Updated: 2022/03/11 17:40:47 by tel-mouh         ###   ########.fr        #
+#    Updated: 2022/04/27 17:24:12 by tel-mouh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INCLUDE_DIR = include
 
 
 SRCS_SE = crypt.c  send_recieve.c  server.c
-SRCS_CL = crypt.c  send_recieve.c  client.c
+SRCS_CL = crypt.c  send_recieve.c  client.c check_pid.c
 OBJS_SE = $(addprefix obj/, $(SRCS_SE:.c=.o))
 OBJS_CL = $(addprefix obj/, $(SRCS_CL:.c=.o))
 INCLUDES = $(INCLUDE_DIR)/Minitalk.h
@@ -72,3 +72,4 @@ fclean : clean
 	
 re: fclean
 	@ make all
+	@ make kill

@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   crypt.c                                            :+:      :+:    :+:   */
+/*   check_pid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/05 22:51:57 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/04/27 16:41:26 by tel-mouh         ###   ########.fr       */
+/*   Created: 2022/04/27 15:29:19 by tel-mouh          #+#    #+#             */
+/*   Updated: 2022/04/27 16:48:02 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/Minitalk.h"
 
-#include "Minitalk.h"
-
-int generate_key()
+void	check_pid(char *s)
 {
-	int pid;
-
-	pid = getpid();
-	return (((pid % 7) * (pid % 10)) + 1);
-}
-
-int  send_crypted_key(int public_key,int key, pid_t pid_to)
-{
-	if (!send_byte(((key * public_key)), pid_to))
-		return (0);
-	return (1);
-}
-
-int receive_crypted_key(int private_key,int receive_key)
-{
-	return (private_key * receive_key);
+	while (*s)
+		if (!ft_isdigit(*s++))
+			exit(EXIT_FAILURE);
 }
