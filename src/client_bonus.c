@@ -6,7 +6,7 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 03:40:32 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/04/30 00:10:46 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 23:13:12 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	main(int ac, char **av)
 			*av[2] -= g_private_key;
 			send_byte(*(av[2])++, serv_pid);
 		}
+		write(1, "message sent to server\n", 23);
 	}
 	return (0);
 }

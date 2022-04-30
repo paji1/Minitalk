@@ -6,7 +6,7 @@
 /*   By: tel-mouh <tel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 03:51:20 by tel-mouh          #+#    #+#             */
-/*   Updated: 2022/04/30 00:04:24 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2022/04/29 23:26:23 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,27 @@ void	print_unicode(char *s, int len)
 void	get_uc(char *c, int *co, int *i, t_unicode *u)
 {
 	*c = recieve_byte(u->sig, u->info);
-	(void)i;
-	(void)co;
 	if (*c)
 	{
 		*c += (u->pkey);
 		if (!(*c >> 7 & 1))
 			write(1, &c[0], 1);
+		else
+		{
+			if (!*i)
+				*co = get_unicount_count(*c);
+			if (*i == *co - 1)
+			{
+				(u->s)[*i] = *c;
+				print_unicode(u->s, *co);
+				*i = 0;
+			}
+			else
+			{
+				(u->s)[*i] = *c;
+				*i += 1;
+			}
+		}
 		*c = 0;
 	}
 }
